@@ -117,19 +117,10 @@ NULLIF(COUNT(DISTINCT COALESCE(s.id, w.id)), 0)
 This prevents division by zero for customers with no transactions.
 
 
-## These implementations are all found within the estimated_clv calculation part of the query:
-```sql
-ROUND(
-    (COUNT(DISTINCT COALESCE(s.id, w.id)) / GREATEST(TIMESTAMPDIFF(MONTH, u.date_joined, CURDATE()), 1)) 
-    * 12 
-    * (SUM(COALESCE(s.confirmed_amount, 0) + COALESCE(w.amount_withdrawn, 0)) / 100 * 0.001 / 
-       NULLIF(COUNT(DISTINCT COALESCE(s.id, w.id)), 0)),
-    2
-) AS estimated_clv
-```
---- 
-This calculation follows the formula in the instructions:
+## This calculation follows the formula in the instructions:
+
 CLV = (total_transactions / tenure) * 12 * avg_profit_per_transaction
+
 Where:
 total_transactions = COUNT(DISTINCT COALESCE(s.id, w.id))
 tenure = GREATEST(TIMESTAMPDIFF(MONTH, u.date_joined, CURDATE()), 1)
