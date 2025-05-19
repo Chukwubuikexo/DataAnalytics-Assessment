@@ -1,9 +1,3 @@
-Here's the corrected and formatted README file:
-
----
-
-# SQL Query Solutions
-
 ## Question 1
 
 ### Approach  
